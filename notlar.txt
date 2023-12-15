@@ -1,0 +1,7 @@
+#include <readline/readline.h>
+#include <readline/history.h>
+
+- void rl_clear_history(void);
+geçmiş kayıtlarını temizleyerek mevcut geçmişi boşaltır.
+
+- void rl_on_new_line(void)
