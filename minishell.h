@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: beeligul <beeligul@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/01 19:02:01 by ohayek            #+#    #+#             */
-/*   Updated: 2023/12/17 20:21:03 by baer             ###   ########.fr       */
+/*   Created: 2023/12/18 19:35:46 by beeligul          #+#    #+#             */
+/*   Updated: 2023/12/18 20:00:06 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ typedef enum e_tokens
 	GREAT_GREAT,
 	LESS,
 	LESS_LESS
-}t_tokens;
+}	t_tokens;
 
 typedef struct s_proc
 {
 	int		fd[2];
 	pid_t	pid;
-}t_proc;
+}	t_proc;
 
 typedef struct s_lexer
 {
@@ -53,7 +53,7 @@ typedef struct s_global
 	struct s_simple_cmds	*p_head;
 	char					**env;
 	char					**export;
-}t_global;
+}	t_global;
 
 typedef struct s_simple_cmds
 {
@@ -78,7 +78,7 @@ typedef struct s_globals
 	int		out_red;
 	int		test2;
 	char	**env;
-}t_globals;
+}	t_globals;
 
 t_globals	g_global;
 
@@ -171,7 +171,7 @@ void	ft_set_heredocs(t_simple_cmds *temp);
 void	ft_clear_heredocs(t_simple_cmds *temp);
 void	ft_set_lexer_index(t_simple_cmds *temp2);
 void	ft_delete_lexer_node(int index, t_simple_cmds *temp2);
-t_lexer	*ft_find_index(int i , t_lexer **lexer);
+t_lexer	*ft_find_index(int i, t_lexer **lexer);
 void	ft_printmatrix(char **str);
 void	ft_clear_lexer(t_global *mini);
 void	ft_parser_arrange(t_global *mini);

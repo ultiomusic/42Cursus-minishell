@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: beeligul <beeligul@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 16:34:21 by ohayek            #+#    #+#             */
-/*   Updated: 2023/12/17 16:41:44 by baer             ###   ########.fr       */
+/*   Created: 2023/12/18 19:36:02 by beeligul          #+#    #+#             */
+/*   Updated: 2023/12/18 19:40:49 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell.h"
 
 void	ft_set_index(t_global *mini)
 {
@@ -26,19 +24,19 @@ void	ft_set_index(t_global *mini)
 	}
 }
 
-t_lexer	*ft_find_index(int i , t_lexer **lexer)
+t_lexer	*ft_find_index(int i, t_lexer **lexer)
 {
 	t_lexer	*temp;
 
 	temp = (*lexer);
 	while (temp)
 	{
-		if(temp->i == (*lexer)->i)
-			return temp;
+		if (temp->i == (*lexer)->i)
+			return (temp);
 		temp = temp->next;
 	}
-	write(2,"\nindex problem\n",16);
-	return NULL;
+	write(2, "\nindex problem\n", 16);
+	return (NULL);
 }
 
 void	ft_delete_node(int index, t_global *mini)

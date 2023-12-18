@@ -12,28 +12,32 @@
 
 #include "minishell.h"
 
-void ft_printmatrix(char **str)
+void	ft_printmatrix(char **str)
 {
-	int i = 0;
-	int j = 0;
-	while(str[i] != NULL)
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i] != NULL)
 	{
-		while(str[i][j] != '\0')
-			write(1,str[i] + j++,1);
-		write(1," ",1);
+		while (str[i][j] != '\0')
+			write(1, str[i] + j++, 1);
+		write(1, " ", 1);
 		j = 0;
 		i++;
 	}
-	write(1,"\n",1);
+	write(1, "\n", 1);
 }
 
 void	ft_executer(t_global *mini)
 {
-	t_lexer *lexer;
+	t_lexer	*lexer;
+
 	lexer = mini->p_head->redirections;
-	while(lexer)
+	while (lexer)
 	{
-		printf("%s ",lexer->str);
+		printf("%s ", lexer->str);
 		lexer = lexer->next;
 	}
 }
@@ -62,5 +66,6 @@ void	ft_executer(t_global *mini)
 		write(2,"cok komut war",14);*/
 
 /*
-	bir input file oluştur inputları at içine sonra redirectionsları teker teker çalıştır.
+	bir input file oluştur inputları at içine sonra redirectionsları 
+	teker teker çalıştır.
 */

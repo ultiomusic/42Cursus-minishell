@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_token3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohayek <ohayek@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: beeligul <beeligul@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/12 12:44:21 by ohayek            #+#    #+#             */
-/*   Updated: 2023/08/12 12:47:22 by ohayek           ###   ########.fr       */
+/*   Created: 2023/12/18 19:35:10 by beeligul          #+#    #+#             */
+/*   Updated: 2023/12/18 19:35:10 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

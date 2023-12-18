@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: beeligul <beeligul@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 17:05:12 by baer              #+#    #+#             */
-/*   Updated: 2023/12/17 19:33:58 by baer             ###   ########.fr       */
+/*   Updated: 2023/12/18 21:19:54 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_parser_firstnode(t_global *mini, t_lexer *lexer)
 			ft_parser_lexpush_back(new, lexer->str);
 			ft_parser_lexpush_back(new, lexer->next->str);
 			i = lexer->i;
-			if(lexer->token == LESS_LESS)
+			if (lexer->token == LESS_LESS)
 				new->in_her++;
 			lexer = lexer->next->next;
 			ft_delete_node(i, mini);
@@ -80,7 +80,7 @@ void	ft_parser_lastnode(t_global *mini, t_lexer *lexer)
 			ft_parser_lexpush_back(new, lexer->str);
 			ft_parser_lexpush_back(new, lexer->next->str);
 			i = lexer->i;
-			if(lexer->token == LESS_LESS)
+			if (lexer->token == LESS_LESS)
 				new->in_her++;
 			lexer = lexer->next->next;
 			ft_delete_node(i, mini);

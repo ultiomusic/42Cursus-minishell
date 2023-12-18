@@ -1,41 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lstfunction.c                                      :+:      :+:    :+:   */
+/*   list_function.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: beeligul <beeligul@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:08:02 by baer              #+#    #+#             */
-/*   Updated: 2023/12/17 20:20:40 by baer             ###   ########.fr       */
+/*   Updated: 2023/12/18 19:38:32 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_parsersize(t_simple_cmds *parser)
+int	ft_parsersize(t_simple_cmds *parser)
 {
 	int	i;
 
 	i = 0;
-	while(parser)
+	while (parser)
 	{
 		i++;
 		parser = parser->next;
 	}
-	return i;
+	return (i);
 }
 
-int ft_lexersize(t_lexer *lexer)
+int	ft_lexersize(t_lexer *lexer)
 {
 	int	i;
 
 	i = 0;
-	while(lexer)
+	while (lexer)
 	{
 		i++;
 		lexer = lexer->next;
 	}
-	return i;
+	return (i);
 }
 
 void	ft_delete_lexer_node(int index, t_simple_cmds *temp2)
@@ -59,7 +59,6 @@ void	ft_delete_lexer_node(int index, t_simple_cmds *temp2)
 	free(temp);
 	ft_set_lexer_index(temp2);
 }
-
 
 void	ft_set_lexer_index(t_simple_cmds *temp2)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsepushback.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohayek <ohayek@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: beeligul <beeligul@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 17:36:05 by baer              #+#    #+#             */
-/*   Updated: 2023/08/11 16:29:42 by ohayek           ###   ########.fr       */
+/*   Updated: 2023/12/18 19:35:39 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

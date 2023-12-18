@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: beeligul <beeligul@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 04:35:54 by baer              #+#    #+#             */
-/*   Updated: 2023/12/17 20:30:01 by baer             ###   ########.fr       */
+/*   Updated: 2023/12/18 21:54:43 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_init_matrix(t_global *mini)
 		while (temp && temp->token != PIPE)
 		{
 			temp_s->str[i++] = ft_strdup(temp->str);
-			temp = temp->next; 
+			temp = temp->next;
 		}
 		if (temp)
 			temp = temp->next;
@@ -73,39 +73,39 @@ void	ft_init_matrix(t_global *mini)
 	}
 }
 
-void ft_parser_arrange(t_global *mini)
+void	ft_parser_arrange(t_global *mini)
 {
-	t_lexer *red;
-	t_lexer *temp;
-	t_lexer **arr;
-	t_lexer *save;
+	t_lexer	*red;
+	t_lexer	*temp;
+	t_lexer	**arr;
+	t_lexer	*save;
 	int		i;
 	int		j;
-	
+
 	i = 0;
 	j = 0;
 	temp = mini->p_head->redirections;
 	arr = (t_lexer **)malloc(sizeof(t_lexer *) * (ft_lexersize(temp) + 1));
 	arr[ft_lexersize(temp)] = NULL;
 	save = mini->p_head->redirections;
-	while(temp)
+	while (temp)
 	{
-		while(temp && (temp->token != LESS_LESS && temp->token != LESS))
+		while (temp && (temp->token != LESS_LESS && temp->token != LESS))
 			temp = temp->next;
-		if(temp &&  (temp->token == LESS_LESS || temp->token == LESS))
-		{	
+		if (temp && (temp->token == LESS_LESS || temp->token == LESS))
+		{
 			arr[i++] = temp;
 			arr[i++] = temp->next;
 			temp = temp->next;
 		}
 	}
 	temp = save;
-	while(temp)
+	while (temp)
 	{
-		while(temp && (temp->token != GREAT_GREAT && temp->token != GREAT))
+		while (temp && (temp->token != GREAT_GREAT && temp->token != GREAT))
 			temp = temp->next;
-		if(temp &&  (temp->token == GREAT_GREAT || temp->token == GREAT))
-		{	
+		if (temp && (temp->token == GREAT_GREAT || temp->token == GREAT))
+		{
 			arr[i++] = temp;
 			arr[i++] = temp->next;
 			temp = temp->next;
@@ -113,7 +113,7 @@ void ft_parser_arrange(t_global *mini)
 	}
 	red = arr[j++];
 	save = red;
-	while(arr[j] != NULL)
+	while (arr[j] != NULL)
 	{
 		save->next = arr[j];
 		save = save->next;
@@ -122,3 +122,75 @@ void ft_parser_arrange(t_global *mini)
 	mini->p_head->redirections = red;
 	free(arr);
 }
+/*
+void	process_redirection_tokens(t_lexer *temp, t_lexer **arr,
+	int *i, int token_type)
+{
+	while (temp)
+	{
+		while (temp && (temp->token != token_type))
+			temp = temp->next;
+		if (temp && (temp->token == token_type))
+		{
+			arr[(*i)++] = temp;
+			arr[(*i)++] = temp->next;
+			temp = temp->next;
+		}
+	}
+}
+
+t_lexer	**allocate_and_initialize_array(t_lexer *temp)
+{
+	t_lexer	**arr;
+
+	arr = (t_lexer **)malloc(sizeof(t_lexer *) * (ft_lexersize(temp) + 1));
+	arr[ft_lexersize(temp)] = NULL;
+	return (arr);
+}
+
+void	concatenate_arrays(t_lexer **arr, t_lexer *red, t_lexer *save, int j)
+{
+	while (arr[j] != NULL)
+	{
+		save->next = arr[j];
+		save = save->next;
+		j++;
+	}
+}
+
+void	ft_parser_arrange_helper(t_global *mini, t_lexer **arr, int *i, int *j,
+	t_lexer **red, t_lexer **save)
+{
+	t_lexer	*temp;
+	temp = mini->p_head->redirections;
+
+	process_redirection_tokens(temp, arr, i, LESS_LESS);
+	process_redirection_tokens(temp, arr, i, LESS);
+
+	*temp = *save;
+
+	process_redirection_tokens(temp, arr, i, GREAT_GREAT);
+	process_redirection_tokens(temp, arr, i, GREAT);
+
+	*red = arr[*j];
+	*save = *red;
+	concatenate_arrays(arr, *red, *save, *j);
+}
+
+void	ft_parser_arrange(t_global *mini)
+{
+	t_lexer	**arr;
+	t_lexer	*save;
+	t_lexer	*red;
+	int		i;
+	int		j;
+	i = 0;
+	j = 0;
+
+	arr = allocate_and_initialize_array(mini->p_head->redirections);
+	save =mini->p_head->redirections;
+	ft_parser_arrange_helper(mini, arr, &i, &j, &red, &save);
+	mini->p_head->redirections = red;
+	free(arr);
+}
+*/
