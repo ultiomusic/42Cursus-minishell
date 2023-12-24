@@ -124,7 +124,10 @@ void	ft_take_input_from_terminal(char *str, t_proc *child, int flag)
 	{
 		line = readline("> ");
 		if (ft_strcmp(line, str) == 0)
+		{
+			free(line);
 			break ;
+		}
 		else if (!flag)
 		{
 			write(fdheredoc, line, ft_strlen(line));

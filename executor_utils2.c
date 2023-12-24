@@ -52,6 +52,14 @@ int	ft_execute_multiple_commands(t_global *mini)
 		{
 			cmd = ft_find_parser_index(i, mini->p_head);
 			cmd->str[0] = ft_set_path(mini, &(cmd->str[0]));
+			close(outfd);
+			infd = childs[i].fd[0];
+			if (i < parsersize - 1 && !flag)
+			{
+				close(outfd);
+				outfd = childs[i + 1].fd[1];
+			}
+			break ;
 		}
 		i++;
 	}

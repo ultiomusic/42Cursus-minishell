@@ -65,6 +65,7 @@ executor_utils1.c       initbuiltin.c           parser1.c
 --------------- 7
 minishell$ echo '$USER'"$USER"
 '$USER'"$USER"
+??solved
 
 ---- 8
 minishell$ ECHO """$USER"""

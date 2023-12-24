@@ -9,7 +9,6 @@ SRCS        :=         	  main.c \
                           parser.c \
                           parser1.c \
                           parsepushback.c \
-                          mutiple_command.c \
                           linked_list.c \
                           lexer.c \
                           initbuiltin.c \
@@ -29,14 +28,15 @@ SRCS        :=         	  main.c \
                           new_bul/ft_export_utils.c \
                           new_bul/ft_export.c \
                           new_bul/ft_pwd.c \
-                          executer/executer1.c \
-                          executer/executer2.c \
-                          executer/executer3.c \
-                          executer/executer4.c \
-                          executer/pipes.c \
 						  split_token.c \
 						  split_token2.c \
-						  split_token3.c
+						  split_token3.c \
+                          executor_utils.c \
+                          executor_utils1.c \
+                          executor_utils2.c \
+                          executor_utils3.c \
+                          list_function.c \
+                          heredocs.c
                           
 OBJS        := $(SRCS:.c=.o)
 
