@@ -1,0 +1,17 @@
+YAPILMASI GEREKENLER
+	builtin fonksiyonları çalıştırmamız lazım. şu anda binden bulup çalıştırınca yanlış çalışıyor 
+	çünkü process kendi directorysini değiştiriyor, envi farklı oluyor vs.
+	farklı insanlarınkinden de bakabilirsin bu kısma execve çalıştırmak yerine parserin builtin function pointerını
+	çalıştırman gerekiyor. parser structunun içinde zaten bir function pointer var. kullanarak çalıştırabilirsin 
+	direkt.
+
+	signal handling yapmıyoruz. ctrl c ctrl d gibi sinyalleri subjectte yazdığı gibi çalıştırmamız lazım. 
+	bir global variable ımı< ve bir signal handling fonksiyonumuz olacak. global variable sürekli içinde programın
+	durumunu tutacak ki heredoc içindeyken ctrl-c ye bastığımı<da verdiği hata kodu ile normalde bastığımızda
+	verdiği aynı olmasın.
+
+	mini structunun içinde bir exit değişkeni oluşturup execveden gelen her exiti ve hatayı onun içinde 
+	sürekli tutmamız lazım. $? yazıldığında bu değerin ekranda belirmesi gerekiyor
+
+	cat|cat|ls i sormamız lazım
+	bu kadar.

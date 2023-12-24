@@ -47,14 +47,14 @@ void	ft_setinput(t_lexer **red, t_proc *child, int *flag)
 
 void	ft_setoutput(t_lexer **red, t_global *mini, int *flag, int *outfd)
 {
-	int buffd;
-	
+	int	buffd;
+
 	while (*red)
 	{
 		if ((*red)->token == GREAT_GREAT)
 		{
 			buffd = ft_greatgreat(mini, (*red)->next->str);
-			if(*flag == 0)
+			if (*flag == 0)
 			{
 				close(*outfd);
 				*outfd = buffd;
@@ -66,7 +66,7 @@ void	ft_setoutput(t_lexer **red, t_global *mini, int *flag, int *outfd)
 		else if ((*red)->token == GREAT)
 		{
 			buffd = ft_greatgreat(mini, (*red)->next->str);
-			if(*flag == 0)
+			if (*flag == 0)
 			{
 				close(*outfd);
 				*outfd = buffd;

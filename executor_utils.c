@@ -29,7 +29,7 @@ int	ft_execute_single_commands(t_global *mini)
 	if (pipe(child.fd) == -1)
 		write(2, "Pipe couldn't be opened.", 25);
 	cmd = mini->p_head;
-	if(cmd->str[0])
+	if (cmd->str[0])
 		cmd->str[0] = ft_set_path(mini, &(cmd->str[0]));
 	flag = 0;
 	red = cmd->redirections;
@@ -37,7 +37,7 @@ int	ft_execute_single_commands(t_global *mini)
 		red = red->next;
 	save = red;
 	child.pid = fork();
-	if(child.pid == 0)
+	if (child.pid == 0)
 	{
 		ft_setinput(&red, &child, &flag);
 		red = save;
@@ -49,12 +49,10 @@ int	ft_execute_single_commands(t_global *mini)
 		dup2(child.fd[0], STDIN_FILENO);
 		dup2(outfd, STDOUT_FILENO);
 		close(child.fd[1]);
-		close(child.fd[0]);
-		// BİLEN BİRİNE KAPATMALI MISIN KAPATMAMALI MISIN SOR
-		//KAPATILMALIYMIŞ
-		if(execve(cmd->str[0], cmd->str, mini->env))
+		close(child.fd[0]); //kapatılmalıymış
+		if (execve(cmd->str[0], cmd->str, mini->env))
 		{
-			write(2,"Couldn't execute the command\n",30);
+			write(2, "Couldn't execute the command\n", 30);
 			exit(1);
 		}
 	}

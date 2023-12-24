@@ -59,7 +59,7 @@ int	ft_execute_multiple_commands(t_global *mini)
 	// her process inputlarını o processin 0 pipeından alıyor ve outputunu sonraki processin 1 pipeına veriyor. < ve << durumlarına kendi 0 pipeına kendi 1 pipe ını kullanarak önce yazıyor, sonra execveden önce inputunu 0 a eşitleyip okuyor. yazdıktan sonra 1 i tabii ki kapatıyorum.
 	// burda < << > >> durumlarında input ve outoutları değiştiriyorum. < ve << de 0 pipeına yazıp bırakıyorum. > >> de outputunu direkt olarak değiştiriyorum başka bi dosya yapıyorum. flag outputu başka bir dosya mı onu gösteriyor. bir processin outputu başka bi dosya değilse ya sonraki processtir ya da son processe standard outputtur.
 	i = 0;
-	while(i < parsersize)
+	while (i < parsersize)
 	{
 		if (childs[i].pid == 0)
 		{
@@ -95,9 +95,9 @@ int	ft_execute_multiple_commands(t_global *mini)
 	i = 0;
 	while (i < parsersize)
 	{
-		if(outfd != childs[i].fd[1])
+		if (outfd != childs[i].fd[1])
 			close(childs[i].fd[1]);
-		if(infd != childs[i].fd[0])
+		if (infd != childs[i].fd[0])
 			close(childs[i].fd[0]);
 		i++;
 	}
@@ -126,9 +126,10 @@ int	ft_execute_multiple_commands(t_global *mini)
 	close(infd);
 	close(outfd);
 	free(childs);
-	return 0;
+	return (0);
 }
 // bu fonksiyon sadece parent processte 1 döndğrğyor. eğer childdaysan 0 döndürüyor.
+
 int	ft_isparent(t_proc *childs, int parsersize)
 {
 	int	i;
