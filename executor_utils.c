@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:15:58 by baer              #+#    #+#             */
-/*   Updated: 2023/12/23 19:47:09 by baer             ###   ########.fr       */
+/*   Updated: 2023/12/24 18:37:51 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	ft_execute_single_commands(t_global *mini)
 		close(child.fd[1]);
 		close(child.fd[0]);
 		// BİLEN BİRİNE KAPATMALI MISIN KAPATMAMALI MISIN SOR
+		//KAPATILMALIYMIŞ
 		if(execve(cmd->str[0], cmd->str, mini->env))
 		{
 			write(2,"Couldn't execute the command\n",30);
