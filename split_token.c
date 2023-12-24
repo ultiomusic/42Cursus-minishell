@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   split_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: beeligul <beeligul@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 19:35:25 by beeligul          #+#    #+#             */
-/*   Updated: 2023/12/18 19:35:26 by beeligul         ###   ########.fr       */
+/*   Updated: 2023/12/23 21:02:20 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strncpy(char *dest, char *src, int n)
+char	*ft_strncpy(char *dest, const char *src, int n)
 {
 	int	i;
 

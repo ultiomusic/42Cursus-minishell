@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: beeligul <beeligul@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 04:35:54 by baer              #+#    #+#             */
-/*   Updated: 2023/12/18 21:54:43 by beeligul         ###   ########.fr       */
+/*   Updated: 2023/12/22 14:28:22 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	ft_init_parser(t_global *mini)
 	}
 	ft_init_matrix(mini);
 	ft_init_builtin(mini);
-	ft_parser_arrange(mini);
 }
 
 int	ft_pipesize(t_lexer *lexer)
@@ -73,7 +72,19 @@ void	ft_init_matrix(t_global *mini)
 	}
 }
 
-void	ft_parser_arrange(t_global *mini)
+void	ft_parser_rearrange(t_global *mini)
+{
+	t_simple_cmds	*temp;
+
+	temp = mini->p_head;
+	while (temp)
+	{
+		ft_parser_arrange(temp);
+		temp = temp->next;
+	}
+}
+
+void	ft_parser_arrange(t_simple_cmds *parse)
 {
 	t_lexer	*red;
 	t_lexer	*temp;
@@ -84,10 +95,10 @@ void	ft_parser_arrange(t_global *mini)
 
 	i = 0;
 	j = 0;
-	temp = mini->p_head->redirections;
+	temp = parse->redirections;
 	arr = (t_lexer **)malloc(sizeof(t_lexer *) * (ft_lexersize(temp) + 1));
 	arr[ft_lexersize(temp)] = NULL;
-	save = mini->p_head->redirections;
+	save = parse->redirections;
 	while (temp)
 	{
 		while (temp && (temp->token != LESS_LESS && temp->token != LESS))
@@ -115,11 +126,12 @@ void	ft_parser_arrange(t_global *mini)
 	save = red;
 	while (arr[j] != NULL)
 	{
-		save->next = arr[j];
+		if (save)
+			save->next = arr[j];
 		save = save->next;
 		j++;
 	}
-	mini->p_head->redirections = red;
+	parse->redirections = red;
 	free(arr);
 }
 /*

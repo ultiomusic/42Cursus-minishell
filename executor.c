@@ -6,7 +6,7 @@
 /*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 11:55:24 by baer              #+#    #+#             */
-/*   Updated: 2023/12/17 20:31:49 by baer             ###   ########.fr       */
+/*   Updated: 2023/12/23 21:34:17 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,40 +32,15 @@ void	ft_printmatrix(char **str)
 
 void	ft_executer(t_global *mini)
 {
-	t_lexer	*lexer;
-
-	lexer = mini->p_head->redirections;
-	while (lexer)
-	{
-		printf("%s ", lexer->str);
-		lexer = lexer->next;
-	}
+	if (ft_parsersize(mini->p_head) == 1)
+		g_global.error_num = ft_execute_single_commands(mini);
+	else if(ft_parsersize(mini->p_head) >= 1)
+		g_global.error_num = ft_execute_multiple_commands(mini);
 }
-
-/*void	ft_executer(t_global *mini)
-{
-	t_lexer *temp;
-	ft_clear_heredocs(mini->p_head);
-	temp = mini->p_head->redirections;
-	while(temp)
-	{
-		printf("sring:%s\n",temp->str);
-		temp = temp->next;
-	}
-}*/
-
-/*int	parsersize;
-	int ret;
-	t_simple_cmds *temp;
-	
-	temp = mini->p_head;
-	parsersize = ft_parsersize(temp);
-	if(parsersize == 1)
-		ret = ft_execute_single_commands(mini);
-	else
-		write(2,"cok komut war",14);*/
-
-/*
-	bir input file oluştur inputları at içine sonra redirectionsları 
-	teker teker çalıştır.
+/*YAPILMASI GEREKENLER
+	builtin fonksiyonları çalıştırmamız lazım. şu anda binden bulup çalıştırınca yanlış çalışıyor çünkü process kendi directorysini değiştiriyor, envi farklı oluyor vs. farklı insanlarınkinden de bakabilirsin bu kısma execve çalıştırmak yerine parserin builtin function pointerını çalıştırman gerekiyor. parser structunun içinde zaten bir function pointer var. kullanarak çalıştırabilirsin direkt.
+	signal handling yapmıyoruz. ctrl c ctrl d gibi sinyalleri subjectte yazdığı gibi çalıştırmamız lazım. bir global variable ımı< ve bir signal handling fonksiyonumuz olacak. global variable sürekli içinde programın durumunu tutacak ki heredoc içindeyken ctrl-c ye bastığımı<da verdiği hata kodu ile normalde bastığımızda verdiği aynı olmasın.
+	mini structunun içinde bir exit değişkeni oluşturup execveden gelen her exiti ve hatayı onun içinde sürekli tutmamız lazım. $? yazıldığında bu değerin ekranda belirmesi gerekiyor
+	cat|cat|ls i sormamız lazım
+	bu kadar.
 */

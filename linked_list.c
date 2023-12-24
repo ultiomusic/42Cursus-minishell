@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: beeligul <beeligul@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 19:36:02 by beeligul          #+#    #+#             */
-/*   Updated: 2023/12/18 19:40:49 by beeligul         ###   ########.fr       */
+/*   Updated: 2023/12/19 18:29:33 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 void	ft_set_index(t_global *mini)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: beeligul <beeligul@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 19:34:24 by beeligul          #+#    #+#             */
-/*   Updated: 2023/12/18 19:34:27 by beeligul         ###   ########.fr       */
+/*   Updated: 2023/12/23 17:48:09 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,6 @@ void	ft_deallocate_parser(t_global *mini)
 	temp = mini->p_head;
 	while (mini->p_head)
 	{
-		if (mini->p_head->hd_file_name)
-		{
-			free(mini->p_head->hd_file_name);
-			mini->p_head->hd_file_name = NULL;
-		}
 		ft_deallocate_lexlist(&(mini->p_head->redirections));
 		ft_freearr(&(mini->p_head->str));
 		temp = mini->p_head->next;

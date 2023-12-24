@@ -6,11 +6,13 @@
 /*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 18:52:25 by ohayek            #+#    #+#             */
-/*   Updated: 2023/12/17 20:28:56 by baer             ###   ########.fr       */
+/*   Updated: 2023/12/23 19:45:02 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_globals	g_global;
 
 void	close_heredoc(int sig)
 {
@@ -66,7 +68,6 @@ void	minishell_loop(char *line,	t_global *mini)
 		ft_executer(mini);
 		ft_deallocate_all(mini);
 		free(line);
-		system("leaks a.out");
 	}
 }
 
