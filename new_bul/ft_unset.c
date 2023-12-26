@@ -6,7 +6,7 @@
 /*   By: ohayek <ohayek@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 18:25:37 by baer              #+#    #+#             */
-/*   Updated: 2023/08/12 11:34:59 by ohayek           ###   ########.fr       */
+/*   Updated: 2023/08/20 18:36:20 by ohayek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,6 @@ int	ft_unset_errors(t_global *mini, t_simple_cmds *parser)
 
 	(void)mini;
 	i = 0;
-	if (!parser->str[0])
-	{
-		write(2, "minishell: unset: not enough arguments\n", 39);
-		return (1);
-	}
-	if (!parser->str[1])
-	{
-		write(2, "minishell: unset: not enough arguments\n", 39);
-		return (1);
-	}
 	while (parser->str[i])
 	{
 		if (parser->str[1][i++] == '/')
@@ -65,26 +55,46 @@ char	**ft_setenvminus(char **ev, int j)
 	return (arr);
 }
 
-void	ft_delvar(t_global *mini, char *str)
+int	ft_toequal(char *str)
 {
-	int		i;
-	int		j;
+	int	i;
 
 	i = 0;
-	j = 0;
-	while (mini->env[j])
+	while (str[i])
 	{
-		if (!ft_strncmp(mini->env[j], str, ft_ifequalexists(str) + 1))
-			mini->env = ft_setenvminus(mini->env, j--);
-		j++;
+		if (str[i] == '=')
+			return (i);
+		i++;
 	}
-	j = 0;
-	while (mini->export[j])
+	return (i);
+}
+
+void	ft_delvar(t_global *mini, char *str, int j)
+{
+	char	**env;
+	char	**ex;
+
+	env = ft_setenv(mini->env);
+	ex = ft_setenv(mini->export);
+	while (env[++j])
 	{
-		if (!ft_strncmp(mini->export[j], str, ft_ifequalexists(str) + 1))
-			mini->export = ft_setenvminus(mini->export, j--);
-		j++;
+		if (!ft_strncmp(env[j], str, ft_toequal(env[j])))
+		{
+			free_tokens(mini->env);
+			mini->env = ft_setenvminus(env, j);
+		}
 	}
+	j = -1;
+	while (ex[++j])
+	{
+		if (!ft_strncmp(ex[j], str, ft_toequal(ex[j])))
+		{
+			free_tokens(mini->export);
+			mini->export = ft_setenvminus(ex, j);
+		}
+	}
+	free_tokens(ex);
+	free_tokens(env);
 }
 
 int	ft_unset(t_global *mini, t_simple_cmds *parser)
@@ -92,9 +102,11 @@ int	ft_unset(t_global *mini, t_simple_cmds *parser)
 	int	i;
 
 	i = 0;
+	if (!parser->str[1])
+		return (0);
 	if (ft_unset_errors(mini, parser))
 		return (1);
 	while (parser->str[i])
-		ft_delvar(mini, parser->str[i++]);
+		ft_delvar(mini, parser->str[i++], -1);
 	return (0);
 }

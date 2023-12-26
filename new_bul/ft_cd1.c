@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
+/*   By:  biekinci@student.42istanbul.com.tr <bi    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 06:16:06 by ohayek            #+#    #+#             */
-/*   Updated: 2023/12/17 12:28:57 by baer             ###   ########.fr       */
+/*   Updated: 2023/08/20 16:00:16 by  biekinci@s      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,18 @@ void	ft_set_pwd(t_global *mini, char *str)
 	free(oldpwd);
 	free(pwd);
 	(void)str;
+}
+
+int	no_pwd(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (!ft_strncmp(env[i], "PWD=", 4))
+			return (0);
+		i++;
+	}
+	return (1);
 }
