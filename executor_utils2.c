@@ -6,7 +6,7 @@
 /*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:15:58 by baer              #+#    #+#             */
-/*   Updated: 2023/12/23 21:45:55 by baer             ###   ########.fr       */
+/*   Updated: 2023/12/25 16:18:46 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_execute_multiple_commands(t_global *mini)
 	t_proc			*childs;
 	t_simple_cmds	*cmd;
 	int				i;
-	int				j;
+	int				out;
 	int				parsersize;
 	int				infd;
 	int				outfd;
@@ -26,9 +26,8 @@ int	ft_execute_multiple_commands(t_global *mini)
 	int				flag;
 
 	i = 0;
-	j = 0;
-	outfd = dup(STDIN_FILENO);
-	infd = dup(STDOUT_FILENO);
+	outfd = STDOUT_FILENO;
+	infd = STDIN_FILENO;
 	cmd = mini->p_head;
 	parsersize = ft_parsersize(cmd);
 	// child processler, pidleri, ve pipeları bir arrayin içinde.
@@ -37,7 +36,11 @@ int	ft_execute_multiple_commands(t_global *mini)
 	while (i < parsersize)
 	{
 		if (pipe(childs[i].fd) == -1)
-			write(2, "Pipe couldn't be opened.\n", 26);
+		{
+			perror("bash: ");
+			g_global.error_num = 1;
+			return (0);
+		}
 		childs[i].pid = 1;
 		i++;
 	}
@@ -52,14 +55,7 @@ int	ft_execute_multiple_commands(t_global *mini)
 		{
 			cmd = ft_find_parser_index(i, mini->p_head);
 			cmd->str[0] = ft_set_path(mini, &(cmd->str[0]));
-			close(outfd);
-			infd = childs[i].fd[0];
-			if (i < parsersize - 1 && !flag)
-			{
-				close(outfd);
-				outfd = childs[i + 1].fd[1];
-			}
-			break ;
+			g_global.error_num = 0;
 		}
 		i++;
 	}
@@ -67,7 +63,7 @@ int	ft_execute_multiple_commands(t_global *mini)
 	// her process inputlarını o processin 0 pipeından alıyor ve outputunu sonraki processin 1 pipeına veriyor. < ve << durumlarına kendi 0 pipeına kendi 1 pipe ını kullanarak önce yazıyor, sonra execveden önce inputunu 0 a eşitleyip okuyor. yazdıktan sonra 1 i tabii ki kapatıyorum.
 	// burda < << > >> durumlarında input ve outoutları değiştiriyorum. < ve << de 0 pipeına yazıp bırakıyorum. > >> de outputunu direkt olarak değiştiriyorum başka bi dosya yapıyorum. flag outputu başka bir dosya mı onu gösteriyor. bir processin outputu başka bi dosya değilse ya sonraki processtir ya da son processe standard outputtur.
 	i = 0;
-	while (i < parsersize)
+	while(i < parsersize)
 	{
 		if (childs[i].pid == 0)
 		{
@@ -83,29 +79,26 @@ int	ft_execute_multiple_commands(t_global *mini)
 		}
 		i++;
 	}
-	// bu kısımda her processin infd sini kendi 0 pipeı outfdsini ise sonraki processin 1 pipe ı yapıyorum
 	i = 0;
-	while (i < parsersize)
+	while(i < parsersize)
 	{
-		if (childs[i].pid == 0)
+		if(childs[i].pid == 0)
 		{
-			close(infd);
-			infd = childs[i].fd[0];
-			if (i < parsersize - 1 && !flag)
-			{
-				close(outfd);
+			if(i != 0)
+				infd = childs[i].fd[0];
+			if(i < parsersize - 1 && !flag)
 				outfd = childs[i + 1].fd[1];
-			}
 		}
 		i++;
 	}
-	//parent dahil bütün processler output ve input dosyaları hariç BÜTÜN pipeları kapatıyor. execve output ve inputu kendi kapatacağı için onları kapatmaya gerek yok ki kapatırsak hata verir.
+	// bu kısımda her processin infd sini kendi 0 pipeı outfdsini ise sonraki processin 1 pipe ı yapıyorum
 	i = 0;
+	//parent dahil bütün processler output ve input dosyaları hariç BÜTÜN pipeları kapatıyor. execve output ve inputu kendi kapatacağı için onları kapatmaya gerek yok ki kapatırsak hata verir.
 	while (i < parsersize)
 	{
-		if (outfd != childs[i].fd[1])
+		if(outfd != childs[i].fd[1])
 			close(childs[i].fd[1]);
-		if (infd != childs[i].fd[0])
+		if(infd != childs[i].fd[0])
 			close(childs[i].fd[0]);
 		i++;
 	}
@@ -113,31 +106,40 @@ int	ft_execute_multiple_commands(t_global *mini)
 	i = 0;
 	if (!ft_isparent(childs,parsersize))
 	{
-		dup2(infd,STDIN_FILENO);
-		dup2(outfd,(STDOUT_FILENO));
-		close(infd);
-		close(outfd);
+		if(infd != STDIN_FILENO)
+		{
+			dup2(infd,STDIN_FILENO);
+			close(infd);
+		}
+		if(outfd != STDOUT_FILENO)
+		{
+			dup2(outfd,(STDOUT_FILENO));
+			close(outfd);
+		}
+		if(g_global.error_num)
+			exit(g_global.error_num);
 		execve(cmd->str[0], cmd->str, mini->env);
-		perror("execve");
-		exit(EXIT_FAILURE);
+		write(2,"bash: ",6);
+		write(2,cmd->str[0],ft_strlen(cmd->str[0]));
+		write(2,": Command not found.\n",22);
+		exit(127);
 	}
 	// parent bütün processleri bekliyor ki hepsi bitene kadar hiçbirşey yapmasın.
 	if (ft_isparent(childs, parsersize))
 	{
 		while (i < parsersize)
 		{
-			waitpid(childs[i].pid, NULL, 0);
+			waitpid(childs[i].pid, &out, 0);
 			i++;
 		}
 		i = 0;
 	}
-	close(infd);
-	close(outfd);
 	free(childs);
-	return (0);
+	if(WIFEXITED(out))
+		g_global.error_num = WEXITSTATUS(out);
+	return 0;
 }
 // bu fonksiyon sadece parent processte 1 döndğrğyor. eğer childdaysan 0 döndürüyor.
-
 int	ft_isparent(t_proc *childs, int parsersize)
 {
 	int	i;

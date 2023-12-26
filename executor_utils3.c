@@ -6,7 +6,7 @@
 /*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 14:10:29 by beeligul          #+#    #+#             */
-/*   Updated: 2023/12/23 19:20:52 by baer             ###   ########.fr       */
+/*   Updated: 2023/12/25 20:04:50 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,32 +29,62 @@ char	*ft_findinenv(t_global *mini, char *str)
 
 void	ft_setinput(t_lexer **red, t_proc *child, int *flag)
 {
+	t_lexer *save;
+	t_lexer *save2;
+
+	save = NULL;
+	save2 = (*red);
+	while(save2->prev)
+		save2 = save2->prev;
 	while ((*red))
 	{
 		if ((*red)->token == LESS_LESS)
 		{
-			ft_take_input_from_terminal((*red)->next->str, child, *flag);
-			(*flag) = 1;
+			save = (*red);
+			break;
 		}
 		else if ((*red)->token == LESS)
 		{
-			ft_take_input_from_file((*red)->next->str, child, *flag);
-			(*flag) = 1;
+			save = (*red);
+			break;
 		}
 		(*red) = (*red)->prev;
 	}
+	(*flag) = 1;
+	while(save2)
+	{
+		if (save2->token == LESS_LESS)
+		{
+			if(save2 == save)
+				(*flag) = 0;
+			ft_take_input_from_terminal(save2->next->str, child, *flag);
+			(*flag) = 1;
+		}
+		else if (save2->token == LESS)
+		{
+			if(save2 == save)
+				(*flag) = 0;
+			ft_take_input_from_file(save2->next->str, child, *flag);
+			(*flag) = 1;
+		}
+		save2 = save2->next;
+	}
+	
 }
+
+//ft_take_input_from_terminal((*red)->next->str, child, *flag);
+//ft_take_input_from_file((*red)->next->str, child, *flag);
 
 void	ft_setoutput(t_lexer **red, t_global *mini, int *flag, int *outfd)
 {
-	int	buffd;
-
+	int buffd;
+	
 	while (*red)
 	{
 		if ((*red)->token == GREAT_GREAT)
 		{
 			buffd = ft_greatgreat(mini, (*red)->next->str);
-			if (*flag == 0)
+			if(*flag == 0)
 			{
 				close(*outfd);
 				*outfd = buffd;
@@ -65,8 +95,8 @@ void	ft_setoutput(t_lexer **red, t_global *mini, int *flag, int *outfd)
 		}
 		else if ((*red)->token == GREAT)
 		{
-			buffd = ft_greatgreat(mini, (*red)->next->str);
-			if (*flag == 0)
+			buffd = ft_great(mini, (*red)->next->str);
+			if(*flag == 0)
 			{
 				close(*outfd);
 				*outfd = buffd;
@@ -103,9 +133,8 @@ char	*ft_set_path(t_global *mini, char **str)
 		free(path);
 		i++;
 	}
-	free(*str);
 	ft_freearr(&paths);
-	return (ft_strdup("Path doesn't exist"));
+	return (*str);
 }
 
 char	*ft_path_arrange(char *path, char *str)

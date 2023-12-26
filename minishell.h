@@ -6,14 +6,12 @@
 /*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 19:35:46 by beeligul          #+#    #+#             */
-/*   Updated: 2023/12/23 21:09:35 by baer             ###   ########.fr       */
+/*   Updated: 2023/12/25 19:26:37 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <unistd.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include <sys/wait.h>
 #include <sys/ioctl.h>
 #include <signal.h>
@@ -21,6 +19,9 @@
 #include <errno.h>
 #include "libft/libft.h"
 #include <fcntl.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <termios.h>
 
 typedef enum e_tokens
 {
@@ -53,6 +54,7 @@ typedef struct s_global
 	struct s_simple_cmds	*p_head;
 	char					**env;
 	char					**export;
+	int						error;
 }	t_global;
 
 typedef struct s_simple_cmds
@@ -68,14 +70,8 @@ typedef struct s_simple_cmds
 
 typedef struct s_globals
 {
-	int		a;
 	int		error_num;
-	int		in_her;
-	int		in_red;
-	int		test1;
-	int		out_red;
-	int		test2;
-	char	**env;
+	int		sig;
 }	t_globals;
 
 extern t_globals	g_global;
@@ -191,3 +187,4 @@ int				ft_execute_multiple_commands(t_global *mini);
 int				ft_isparent(t_proc *childs, int parsersize);
 t_simple_cmds	*ft_find_parser_index(int i, t_simple_cmds *parser);
 void			ft_check_delete(t_global *mini, t_lexer *temp);
+int				no_pwd(char **env);

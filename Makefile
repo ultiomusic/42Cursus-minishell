@@ -1,70 +1,75 @@
-NAME        := minishell
-CC        := gcc
+SRCS := main.c \
+        parser.c \
+        parser1.c \
+        parsepushback.c \
+        linked_list.c \
+        list_function.c \
+        heredocs.c \
+        lexer.c \
+        initbuiltin.c \
+        free.c \
+        expand3.c \
+        expand2.c \
+        expand1.c \
+        expand.c  \
+        error.c \
+        new_bul/ft_cd.c \
+        new_bul/ft_cd1.c \
+        new_bul/ft_echo.c \
+        new_bul/ft_unset.c \
+        new_bul/ft_env.c \
+        new_bul/ft_exit.c \
+        new_bul/ft_export_utils.c \
+        new_bul/ft_export.c \
+        new_bul/ft_pwd.c \
+        executor.c \
+        executor_utils.c \
+        executor_utils1.c \
+        executor_utils2.c \
+        executor_utils3.c \
+        split_token.c \
+        split_token2.c \
+        split_token3.c
 
-FLAGS    := -Wall -Wextra -Werror
-LIBFT	 := libft/libft.a
-#FLAGS       := -fsanitize=address -g
-# FLAGS := -g
-SRCS        :=         	  main.c \
-                          parser.c \
-                          parser1.c \
-                          parsepushback.c \
-                          linked_list.c \
-                          lexer.c \
-                          initbuiltin.c \
-                          free.c \
-                          expand3.c \
-                          expand2.c \
-                          expand1.c \
-						  expand.c  \
-                          executer.c \
-                          error.c \
-                          new_bul/ft_cd.c \
-                          new_bul/ft_cd1.c \
-                          new_bul/ft_echo.c \
-                          new_bul/ft_unset.c \
-                          new_bul/ft_env.c \
-                          new_bul/ft_exit.c \
-                          new_bul/ft_export_utils.c \
-                          new_bul/ft_export.c \
-                          new_bul/ft_pwd.c \
-						  split_token.c \
-						  split_token2.c \
-						  split_token3.c \
-                          executor_utils.c \
-                          executor_utils1.c \
-                          executor_utils2.c \
-                          executor_utils3.c \
-                          list_function.c \
-                          heredocs.c
-                          
-OBJS        := $(SRCS:.c=.o)
+CC = @gcc
+NAME = minishell
+CFLAGS = -Wall -Wextra -Werror
+LIBFT := libft/libft.a
+RM = @rm -rf
 
-.c.o:
-	@${CC} ${FLAGS} -c $< -o ${<:.c=.o} -I/Users/ohayek/readline/include
+OBJS = $(SRCS:.c=.o)
 
-RM		    := rm -f
+READLINE = readline
 
-${NAME}:	${LIBFT} ${OBJS}
-			@echo "[COMPILING...]"
-			@${CC} ${FLAGS} -o ${NAME} ${OBJS} ${LIBFT} -I/Users/ohayek/readline/include -L/Users/ohayek/readline/lib -lreadline
-			@echo "[COMPILING FINISHED]"
-${LIBFT}:
+all: $(READLINE) $(NAME)
+
+$(READLINE):
+	curl -O https://ftp.gnu.org/gnu/readline/readline-8.2.tar.gz
+	tar -xvf readline-8.2.tar.gz
+	cd readline-8.2 && ./configure --prefix=${PWD}/readline
+	cd readline-8.2 && make install
+
+
+$(NAME): $(LIBFT) $(OBJS)
+	@echo "[COMPILING...]"
+	$(CC) -o $(NAME) $(OBJS) $(CFLAGS) $(LIBFT) -I${PWD}/readline/include/ -lreadline -L${PWD}/readline/lib  
+
+$(LIBFT):
 	make -C libft/
 
-all:		${NAME}
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@ -I${PWD}/readline/include/
 
-bonus:		all
+fclean: clean
+	$(RM) $(NAME)
+	make -C libft/ fclean
+	@rm -rf readline-8.2 readline-8.2.tar.gz
 
 clean:
-			@echo "[DELETING...]"
-			@${RM} *.o */*.o */*/*.o
-			@echo "[DELETED]"
+	@echo "[DELETING...]"
+	@$(RM) $(OBJS)
+	@echo "[DELETED]"
 
-fclean:		clean
-			@${RM} ${NAME}
-			make -C libft/ fclean
+re: fclean all
 
-re:			fclean all
-
-.PHONY:		all clean fclean re
+.PHONY: all fclean clean re
