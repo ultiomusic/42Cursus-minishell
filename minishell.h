@@ -6,7 +6,7 @@
 /*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 19:35:46 by beeligul          #+#    #+#             */
-/*   Updated: 2023/12/25 19:26:37 by baer             ###   ########.fr       */
+/*   Updated: 2023/12/30 18:13:20 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_proc
 {
 	int		fd[2];
 	pid_t	pid;
+	int		parsersize;
 }	t_proc;
 
 typedef struct s_lexer
@@ -188,3 +189,6 @@ int				ft_isparent(t_proc *childs, int parsersize);
 t_simple_cmds	*ft_find_parser_index(int i, t_simple_cmds *parser);
 void			ft_check_delete(t_global *mini, t_lexer *temp);
 int				no_pwd(char **env);
+void	ft_setmultiinput(t_lexer *red, t_proc *childs, int *flag, int i);
+void	ft_take_multiinput_from_terminal(char *str, t_proc *child, int flag, int i);
+void	ft_take_multiinput_from_file(char *str, t_proc *child, int flag, int i);

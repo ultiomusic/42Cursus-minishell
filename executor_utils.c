@@ -6,7 +6,7 @@
 /*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:15:58 by baer              #+#    #+#             */
-/*   Updated: 2023/12/25 19:46:39 by baer             ###   ########.fr       */
+/*   Updated: 2023/12/30 21:14:26 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_execute_single_commands(t_global *mini)
 	int				flag;
 
 	i = 0;
-	if(mini->p_head->builtin)
+	if(mini->p_head->builtin && mini->p_head->builtin != &ft_echo && mini->p_head->builtin != &ft_pwd)
 	{
 		g_global.error_num = mini->p_head->builtin(mini, mini->p_head);
 		return 0;

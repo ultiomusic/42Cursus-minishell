@@ -6,7 +6,7 @@
 /*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 14:10:29 by beeligul          #+#    #+#             */
-/*   Updated: 2023/12/25 20:04:50 by baer             ###   ########.fr       */
+/*   Updated: 2023/12/30 21:22:02 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*ft_findinenv(t_global *mini, char *str)
 	save = ft_strjoin(str, "=");
 	while (mini->env[i] && ft_strncmp(mini->env[i], save, ft_strlen(save)))
 		i++;
+	if(mini->env[i] == NULL)
+	return NULL;
 	fre = ft_strdup(mini->env[i] + ft_strlen(save));
 	free(save);
 	return (fre);
@@ -32,6 +34,8 @@ void	ft_setinput(t_lexer **red, t_proc *child, int *flag)
 	t_lexer *save;
 	t_lexer *save2;
 
+	if(!(*red))
+		return ;
 	save = NULL;
 	save2 = (*red);
 	while(save2->prev)
@@ -56,20 +60,19 @@ void	ft_setinput(t_lexer **red, t_proc *child, int *flag)
 		if (save2->token == LESS_LESS)
 		{
 			if(save2 == save)
-				(*flag) = 0;
+			(*flag) = 0;
 			ft_take_input_from_terminal(save2->next->str, child, *flag);
 			(*flag) = 1;
 		}
 		else if (save2->token == LESS)
 		{
 			if(save2 == save)
-				(*flag) = 0;
+			(*flag) = 0;
 			ft_take_input_from_file(save2->next->str, child, *flag);
 			(*flag) = 1;
 		}
 		save2 = save2->next;
 	}
-	
 }
 
 //ft_take_input_from_terminal((*red)->next->str, child, *flag);
@@ -117,6 +120,8 @@ char	*ft_set_path(t_global *mini, char **str)
 
 	i = 0;
 	path = ft_findinenv(mini, "PATH");
+	if(path == NULL)
+		return (*str);
 	paths = ft_split(path, ":");
 	free(path);
 	if (!paths)

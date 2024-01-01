@@ -29,7 +29,8 @@ SRCS := main.c \
         executor_utils3.c \
         split_token.c \
         split_token2.c \
-        split_token3.c
+        split_token3.c \
+		multis.c    
 
 CC = @gcc
 NAME = minishell

@@ -6,7 +6,7 @@
 /*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:15:58 by baer              #+#    #+#             */
-/*   Updated: 2023/12/25 16:18:46 by baer             ###   ########.fr       */
+/*   Updated: 2023/12/30 21:19:41 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	ft_execute_multiple_commands(t_global *mini)
 	int				outfd;
 	t_lexer			*red;
 	t_lexer			*save;
-	int				flag;
+	int				oflag;
+	int				iflag;
 
 	i = 0;
 	outfd = STDOUT_FILENO;
@@ -53,6 +54,7 @@ int	ft_execute_multiple_commands(t_global *mini)
 			childs[i].pid = fork();
 		if (childs[i].pid == 0)
 		{
+			childs[i].parsersize = parsersize;
 			cmd = ft_find_parser_index(i, mini->p_head);
 			cmd->str[0] = ft_set_path(mini, &(cmd->str[0]));
 			g_global.error_num = 0;
@@ -67,15 +69,15 @@ int	ft_execute_multiple_commands(t_global *mini)
 	{
 		if (childs[i].pid == 0)
 		{
-			flag = 0;
+			iflag = 0;
 			red = cmd->redirections;
 			while (red && red->next)
 				red = red->next;
 			save = red;
-			ft_setinput(&red, &childs[i], &flag);
+			ft_setmultiinput(red, childs, &iflag, i);
 			red = save;
-			flag = 0;
-			ft_setoutput(&red, mini, &flag, &outfd);
+			oflag = 0;
+			ft_setoutput(&red, mini, &oflag, &outfd);
 		}
 		i++;
 	}
@@ -84,9 +86,9 @@ int	ft_execute_multiple_commands(t_global *mini)
 	{
 		if(childs[i].pid == 0)
 		{
-			if(i != 0)
+			if(i != 0 || iflag == 1)
 				infd = childs[i].fd[0];
-			if(i < parsersize - 1 && !flag)
+			if(i < parsersize - 1 && !oflag)
 				outfd = childs[i + 1].fd[1];
 		}
 		i++;
@@ -118,6 +120,8 @@ int	ft_execute_multiple_commands(t_global *mini)
 		}
 		if(g_global.error_num)
 			exit(g_global.error_num);
+		else if(mini->p_head->builtin == &ft_exit)
+			exit(0);
 		execve(cmd->str[0], cmd->str, mini->env);
 		write(2,"bash: ",6);
 		write(2,cmd->str[0],ft_strlen(cmd->str[0]));
