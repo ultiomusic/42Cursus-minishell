@@ -3,43 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 18:52:25 by ohayek            #+#    #+#             */
-/*   Updated: 2023/12/25 19:48:10 by baer             ###   ########.fr       */
+/*   Updated: 2024/01/02 22:07:11 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_globals g_global;
+t_globals	g_global;
 
-// static void	suppress_output(void)
-// {
-// 	struct termios	termios_p;
-
-// 	if (tcgetattr(0, &termios_p) != 0)
-// 		perror("Minishell: tcgetattr");
-// 	termios_p.c_lflag &= ~ECHOCTL;
-// 	if (tcsetattr(0, 0, &termios_p) != 0)
-// 		perror("Minishell: tcsetattr");
-// }
-
-// void	ft_handler(int sig)
-// {
-// 	if (g_global.test2)
-// 	{
-// 		ft_putstr_fd("\n", 2);
-// 		rl_on_new_line();
-// 		return ;
-// 	}
-// 	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-// 	write(1, "\033[A", 3);
-// 	rl_on_new_line();
-// 	rl_redisplay();
-// }
-
-void minishell_loop(char *line, t_global *mini)
+void	minishell_loop(char *line, t_global *mini)
 {
 	while (1)
 	{
@@ -53,7 +28,7 @@ void minishell_loop(char *line, t_global *mini)
 		{
 			ft_deallocate_lexer(mini);
 			free(line);
-			continue;
+			continue ;
 		}
 		ft_expand(mini);
 		ft_init_parser(mini);
@@ -63,16 +38,9 @@ void minishell_loop(char *line, t_global *mini)
 	}
 }
 
-// void	sigquit_handler(int sig)
-// {
-// 	(void)sig;
-// 	rl_redisplay();
-// 	return ;
-// }
-
-static void suppress_output(void)
+void	suppress_output(void)
 {
-	struct termios termios_p;
+	struct termios	termios_p;
 
 	if (tcgetattr(0, &termios_p) != 0)
 		perror("Minishell: tcgetattr");
@@ -81,13 +49,13 @@ static void suppress_output(void)
 		perror("Minishell: tcsetattr");
 }
 
-static void handle_sigint(int sig)
+void	handle_sigint(int sig)
 {
 	(void)sig;
 	if (g_global.sig == 0)
 	{
 		write(1, "\n", 1);
-		if(g_global.sig != 2)
+		if (g_global.sig != 2)
 			rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -98,29 +66,23 @@ static void handle_sigint(int sig)
 	}
 }
 
-static void handle_sigquit(int sig)
+void	handle_sigquit(int sig)
 {
 	(void)sig;
 	rl_redisplay();
 }
 
-void signals_init(void)
+int	main(int ac, char **av, char **ev)
 {
-	suppress_output();
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, handle_sigquit);
-}
-int main(int ac, char **av, char **ev)
-{
-	char *line;
-	t_global mini;
+	t_global	mini;
+	char		*line;
 
 	if (ac > 1)
 		exit(1);
 	line = NULL;
 	(void)av;
 	g_global.sig = 0;
-	g_global.error_num = 0;
+	mini.error = 0;
 	mini.env = ft_setenv(ev);
 	mini.export = ft_setenv(ev);
 	mini.head = NULL;

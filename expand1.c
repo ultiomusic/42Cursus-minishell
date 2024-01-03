@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohayek <ohayek@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 11:12:03 by ohayek            #+#    #+#             */
-/*   Updated: 2023/08/15 22:49:20 by ohayek           ###   ########.fr       */
+/*   Updated: 2024/01/02 21:44:45 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_replace_dollar(char **exp, int *j, char *str, char **ev)
+int	ft_replace_dollar(char **exp, int *j, char *str, t_global *mini)
 {
 	int		c;
 	int		i;
@@ -22,11 +22,11 @@ int	ft_replace_dollar(char **exp, int *j, char *str, char **ev)
 	c = 1;
 	i = 0;
 	if (str[i + 1] == '?')
-		return (ft_handle_qmark(exp, j));
+		return (ft_handle_qmark(exp, j, mini));
 	while (str[c] && ft_allvalid(str[c]))
 		c++;
 	save = ft_substr(str, 1, c - 1);
-	path = ft_pathof(save, ev);
+	path = ft_pathof(save, mini->env, mini);
 	if (path[0])
 	{
 		ft_stradd(exp, path + ft_strlen(save) + 1, *j);
@@ -69,17 +69,18 @@ int	ft_ifvalid(char c)
 	return (0);
 }
 
-void	ft_expandmainly(char **exp, char *str, char **ev)
+void	ft_expandmainly(char **exp, char *str, char **ev, t_global *mini)
 {
 	int	i;
 	int	j;
 	int	flag;
 
+	(void)ev;
 	ft_quicklyinitialize(&i, &flag, &j);
 	while (str[++i])
 	{
 		if (str[i] == '$' && flag != 1 && ft_ifvalid(str[i + 1]))
-			i += ft_replace_dollar(exp, &j, str + i, ev);
+			i += ft_replace_dollar(exp, &j, str + i, mini);
 		else if (ft_check_flag_status(str, i, &flag))
 		{
 			(*exp)[j] = str[i];
@@ -90,7 +91,7 @@ void	ft_expandmainly(char **exp, char *str, char **ev)
 	(*exp)[j] = str[i];
 }
 
-int	ft_add_dollar(char *str, char **ev)
+int	ft_add_dollar(char *str, char **ev, t_global *mini)
 {
 	int		c;
 	int		j;
@@ -101,7 +102,7 @@ int	ft_add_dollar(char *str, char **ev)
 	c = 1;
 	if (str[1] == '?')
 	{
-		save = ft_itoa(g_global.error_num);
+		save = ft_itoa(mini->error);
 		j = ft_strlen(save);
 		free(save);
 		return (j);
@@ -109,7 +110,7 @@ int	ft_add_dollar(char *str, char **ev)
 	while (str[c] && ft_allvalid(str[c]))
 		c++;
 	save = ft_substr(str, 1, c - 1);
-	bruh = ft_pathof(save, ev);
+	bruh = ft_pathof(save, ev, mini);
 	path = ft_strdup(bruh);
 	j = ft_strlen(path + ft_strlen(save) + 1);
 	free(save);

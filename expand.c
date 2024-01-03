@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohayek <ohayek@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:22:03 by ohayek            #+#    #+#             */
-/*   Updated: 2023/08/15 22:48:53 by ohayek           ###   ########.fr       */
+/*   Updated: 2024/01/02 21:42:23 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_sad(char *str)
 	return (c - 1);
 }
 
-int	ft_sizeofexpanded(char *str, char **ev)
+int	ft_sizeofexpanded(char *str, char **ev, t_global *mini)
 {
 	int	i;
 	int	c;
@@ -33,7 +33,7 @@ int	ft_sizeofexpanded(char *str, char **ev)
 	{
 		if (str[i] == '$' && flag != 1 && ft_ifvalid(str[i + 1]))
 		{
-			c += ft_add_dollar(str + i, ev);
+			c += ft_add_dollar(str + i, ev, mini);
 			i += ft_sad(str + i);
 		}
 		else if (ft_check_flag_status(str, i, &flag))
@@ -42,16 +42,16 @@ int	ft_sizeofexpanded(char *str, char **ev)
 	return (c);
 }
 
-char	*expander(char *str, char **ev)
+char	*expander(char *str, char **ev, t_global *mini)
 {
 	char	*exp;
 	int		mem;
 	char	*mmm;
 
 	mmm = ft_strdup(str);
-	mem = ft_sizeofexpanded(mmm, ev);
+	mem = ft_sizeofexpanded(mmm, ev, mini);
 	exp = ft_calloc(mem + 2, sizeof(char));
-	ft_expandmainly(&exp, str, ev);
+	ft_expandmainly(&exp, str, ev, mini);
 	free(mmm);
 	return (exp);
 }
@@ -77,7 +77,7 @@ void	ft_expand(t_global *mini)
 		to_expand = ft_strdup(temp->str);
 		if (temp->str)
 			free(temp->str);
-		temp->str = expander(to_expand, mini->env);
+		temp->str = expander(to_expand, mini->env, mini);
 		free(to_expand);
 		temp = temp->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohayek <ohayek@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 11:17:41 by ohayek            #+#    #+#             */
-/*   Updated: 2023/08/13 01:34:24 by ohayek           ###   ########.fr       */
+/*   Updated: 2024/01/02 21:59:51 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,20 @@ void	ft_quicklyinitialize(int *i, int *flag, int *j)
 	*j = 0;
 }
 
-char	*ft_pathof(char *str, char **ev)
+char	*ft_pathof(char *str, char **ev, t_global *mini)
 {
 	char	*path;
 	int		i;
 
+	(void)ev;
 	i = 0;
 	path = ft_strjoin(str, "=");
-	while (ev[i])
+	while (mini->env[i])
 	{
-		if (!ft_strncmp(ev[i], path, ft_strlen(path)))
+		if (!ft_strncmp(mini->env[i], path, ft_strlen(path)))
 		{
 			free(path);
-			return (ft_strdup(ev[i]));
+			return (ft_strdup(mini->env[i]));
 		}
 		i++;
 	}

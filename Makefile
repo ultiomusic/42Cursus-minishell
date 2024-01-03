@@ -30,7 +30,12 @@ SRCS := main.c \
         split_token.c \
         split_token2.c \
         split_token3.c \
-		multis.c    
+		multis.c    \
+		multiutils.c \
+		multiutils2.c \
+		singleutils.c \
+		singleutils2.c \
+		sig_init.c \
 
 CC = @gcc
 NAME = minishell

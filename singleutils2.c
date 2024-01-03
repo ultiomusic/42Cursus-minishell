@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand2.c                                          :+:      :+:    :+:   */
+/*   singleutils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 18:22:56 by ohayek            #+#    #+#             */
-/*   Updated: 2024/01/02 21:33:43 by baer             ###   ########.fr       */
+/*   Created: 2024/01/02 19:12:24 by beeligul          #+#    #+#             */
+/*   Updated: 2024/01/02 21:39:39 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_handle_qmark(char **exp, int *j, t_global *mini)
+void	ft_errorarranger(t_global *mini, int out)
 {
-	char	*save;
-
-	save = ft_itoa(mini->error);
-	ft_stradd(exp, save, *j);
-	*j += ft_strlen(save);
-	free(save);
-	return (1);
+	(void)mini;
+	g_global.sig = 0;
+	if (WIFEXITED(out))
+		mini->error = WEXITSTATUS(out);
+	else if (WIFSIGNALED(out))
+		mini->error = WTERMSIG(out) + 128;
 }

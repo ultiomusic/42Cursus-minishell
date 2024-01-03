@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 19:36:02 by beeligul          #+#    #+#             */
-/*   Updated: 2023/12/25 18:41:15 by baer             ###   ########.fr       */
+/*   Updated: 2024/01/02 18:51:05 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	ft_set_index(t_global *mini)
 
 t_lexer	*ft_find_index(int i, t_lexer **lexer)
 {
-	(void)i;
 	t_lexer	*temp;
 
+	(void)i;
 	temp = (*lexer);
 	while (temp)
 	{
