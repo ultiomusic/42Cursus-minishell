@@ -6,7 +6,7 @@
 /*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 18:24:28 by baer              #+#    #+#             */
-/*   Updated: 2023/08/08 20:32:57 by baer             ###   ########.fr       */
+/*   Updated: 2024/01/02 21:39:56 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_env(t_global *mini, struct s_simple_cmds *head)
 	{
 		ft_putstr_fd(head->str[1], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
-		g_global.error_num = 127;
+		mini->error = 127;
 		return (0);
 	}
 	i = 0;

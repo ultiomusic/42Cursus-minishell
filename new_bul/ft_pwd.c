@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohayek <ohayek@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 22:07:47 by ohayek            #+#    #+#             */
-/*   Updated: 2023/08/12 11:34:29 by ohayek           ###   ########.fr       */
+/*   Created: 2024/01/02 19:01:11 by beeligul          #+#    #+#             */
+/*   Updated: 2024/01/02 21:39:51 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_pwd(t_global *mini, struct s_simple_cmds *head)
 	else
 	{
 		ft_putstr_fd("pwd: error getting current directory\n", 2);
-		g_global.error_num = 1;
+		mini->error = 1;
 	}
 	(void)mini;
 	return (0);

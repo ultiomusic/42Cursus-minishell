@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By:  biekinci@student.42istanbul.com.tr <bi    +#+  +:+       +#+        */
+/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/08 18:25:30 by baer              #+#    #+#             */
-/*   Updated: 2023/08/20 16:00:13 by  biekinci@s      ###   ########.fr       */
+/*   Created: 2024/01/02 19:00:28 by beeligul          #+#    #+#             */
+/*   Updated: 2024/01/02 21:39:46 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	ft_cdskip(t_global *mini, t_simple_cmds *parser, int ret)
 	directions(mini, parser, &ret);
 	if (ret)
 	{
-		g_global.error_num = 1;
+		mini->error = 1;
 		return (1);
 	}
 	if (no_pwd(mini->env))
