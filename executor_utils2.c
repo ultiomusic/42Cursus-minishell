@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:15:58 by baer              #+#    #+#             */
-/*   Updated: 2024/01/02 21:55:38 by beeligul         ###   ########.fr       */
+/*   Updated: 2024/01/04 16:32:37 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ char	*ft_set_path(t_global *mini, char **str)
 
 	i = 0;
 	path = ft_findinenv(mini, "PATH");
+	if (ft_strcmp(path, "Yok") == 0)
+		return (*str);
 	paths = ft_split(path, ":");
 	free(path);
-	if (!paths)
-		write(2, "PATH is empty.", 15);
 	while (paths[i])
 	{
-		path = ft_path_arrange(paths[i], (*str));
+		path = ft_path_arrange(paths[i++], (*str));
 		if (!access(path, F_OK))
 		{
 			free(*str);
@@ -90,7 +90,6 @@ char	*ft_set_path(t_global *mini, char **str)
 			return (path);
 		}
 		free(path);
-		i++;
 	}
 	ft_freearr(&paths);
 	return (*str);

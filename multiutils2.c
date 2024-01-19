@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multiutils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:46:16 by beeligul          #+#    #+#             */
-/*   Updated: 2024/01/02 21:58:36 by beeligul         ###   ########.fr       */
+/*   Updated: 2024/01/04 16:01:32 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_execution(t_proc **childs, t_simple_cmds **cmd, int *fds,
 		}
 		if (mini->error)
 			exit(mini->error);
-		else if (mini->p_head->builtin == &ft_exit)
+		else if ((*cmd)->builtin == &ft_exit)
 			exit(0);
 		execve((*cmd)->str[0], (*cmd)->str, mini->env);
 		write(2, "bash: ", 6);

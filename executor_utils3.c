@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baer <baer@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 14:10:29 by beeligul          #+#    #+#             */
-/*   Updated: 2024/01/02 22:01:11 by beeligul         ###   ########.fr       */
+/*   Updated: 2024/01/04 16:37:20 by baer             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*ft_findinenv(t_global *mini, char *str)
 	save = ft_strjoin(str, "=");
 	while (mini->env[i] && ft_strncmp(mini->env[i], save, ft_strlen(save)))
 		i++;
+	if (mini->env[i] == NULL)
+		return ("Yok");
 	fre = ft_strdup(mini->env[i] + ft_strlen(save));
 	free(save);
 	return (fre);
